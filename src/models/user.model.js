@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema(
             required:true
         },
         coverImage:{
-            type:String,
+            type:String,       //we are storing avatar and coverImage in third party App cloudinary and taking url from there
         },
         watchHistory:[
             {
