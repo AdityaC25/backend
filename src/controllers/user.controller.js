@@ -159,8 +159,8 @@ const logoutUser = asyncHandler( async(req,res)=>{
    User.findByIdAndUpdate(
     req.user._id,
     {
-        $set:{
-            refreshToken:undefined
+        $unset:{
+            refreshToken:1
         }
     },
     {
@@ -262,8 +262,8 @@ const UpdateAccountDetail = asyncHandler(async (req,res) =>{
         req.user?._id,
         {
             $set:{
-                fullname:fullname,
-                email:email
+                fullname,
+                email
             }
         },
         {new:true}
@@ -381,8 +381,8 @@ const getUserChannelProfile = asyncHandler(async (req,res) =>{
                 },
                 isSubscribed:{
                     $cond:{
-                        if:{$in:[req.user?._id,"$subscribers.subscriber"]},
-                        them:true,
+                        if: {$in: [req.user?._id,"$subscribers.subscriber"]},
+                        then:true,
                         else:false
                     }
                 }
@@ -447,7 +447,7 @@ const getWatchHistory = asyncHandler(async (req,res) =>{
                     {
                         $addFields:{
                             owner:{
-                                $first : $owner
+                                $first : "$owner"
                             }
                         }
                     }

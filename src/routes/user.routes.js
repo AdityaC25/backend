@@ -38,7 +38,7 @@ const router = Router();
     router.route("/refresh-token").post(refreshAccessToken)
     router.route("/change-password").post(verifyJWT,changeCurrentPassword)
     router.route("/current-user").get(verifyJWT,getCurrentUser)
-    router.route("/update-account").patch(UpdateAccountDetail)
+    router.route("/update-account").patch(verifyJWT,UpdateAccountDetail)
     router.route("/avatar").patch(verifyJWT,upload.single("avatar"),updateUserAvatar)
     router.route("/cover-image").patch((verifyJWT,upload.single("coverImage"),updateUserCoverImage))
     router.route("/channel/:username").get(verifyJWT,getUserChannelProfile)
