@@ -290,7 +290,7 @@ const updateUserAvatar = asyncHandler(async (req,res) =>{
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalFile);
-   console.log(avatar);
+//    console.log(avatar);
    
     
 
