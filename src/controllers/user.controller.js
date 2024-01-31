@@ -78,7 +78,7 @@ const registerUser = asyncHandler( async (req,res) =>{
     throw new ApiError(400,"avatar file is required!")
    }
 
-   const user = await User.create({
+  const user = await User.create({
     fullname,
     avatar: avatar.url,
     coverImage : coverImage?.url || "",
@@ -212,7 +212,7 @@ const refreshAccessToken = asyncHandler(async (req,res) =>{
      cookie("accessToken",accessToken,options).
      cookie("refreshToken",newRefreshToken,options).
      json(
-      new ApiError(
+      new ApiResponse(
           200,
           {accessToken,newRefreshToken},
           "Access Token Refreshed Successfully!"
@@ -282,12 +282,17 @@ const UpdateAccountDetail = asyncHandler(async (req,res) =>{
 
 const updateUserAvatar = asyncHandler(async (req,res) =>{
     const avatarLocalFile = req.file?.path;
+    
+  
 
     if(!avatarLocalFile){
         throw new ApiError(400,"Avatar Required!");
     }
 
     const avatar = await uploadOnCloudinary(avatarLocalFile);
+   console.log(avatar);
+   
+    
 
     if(!avatar.url){
         throw new ApiError(400,"Error while uploading Avatar!")
@@ -301,7 +306,8 @@ const updateUserAvatar = asyncHandler(async (req,res) =>{
         {new:true}
     ).select("-password")
     
-    res.status(200).
+    return res.
+    status(200).
     json(
        new ApiResponse(
            200,
@@ -319,6 +325,8 @@ const updateUserCoverImage = asyncHandler(async (req,res) =>{
     }
 
     const coverImage = await uploadOnCloudinary(coverImageLocalFile);
+    
+    
 
     if(!coverImage.url){
         throw new ApiError(400,"Error while uploading coverImage!")
@@ -332,7 +340,7 @@ const updateUserCoverImage = asyncHandler(async (req,res) =>{
         {new:true}
     ).select("-password")
     
-     res.status(200).
+     return res.status(200).
      json(
         new ApiResponse(
             200,
